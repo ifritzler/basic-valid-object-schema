@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Validation tool or utility that allows for simple and fast validation of an object against a schema.",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

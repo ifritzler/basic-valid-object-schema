@@ -141,3 +141,5 @@ class ValidationObject {
         }
     };
 }
+
+module.exports = ValidationObject
