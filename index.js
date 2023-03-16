@@ -37,11 +37,6 @@ class ValidationObject {
     }
 
     #createObjectFromKeys(keys, lastObj = {}) {
-        // Caso base: si no quedan más keys, retornar el objeto proporcionado
-        if (keys.length === 0) {
-            return lastObj;
-        }
-
         // Tomar la primera key del arreglo
         const currentKey = keys[0];
 
@@ -50,7 +45,7 @@ class ValidationObject {
 
         // Si no es la última clave, pasar el objeto anterior al siguiente nivel de la recursión
         if (keys.length > 1) {
-            nestedObj[currentKey] = this.#createObjectFromKeys(keys.slice(1), lastObj || {});
+            nestedObj[currentKey] = this.#createObjectFromKeys(keys.slice(1), lastObj);
         } else {
             // Si es la última clave, asignar el objeto anterior a la clave actual
             nestedObj[currentKey] = lastObj;
