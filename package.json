@@ -1,0 +1,32 @@
+{
+  "name": "basic-valid-object-schema",
+  "version": "0.1.0",
+  "description": "Validation tool or utility that allows for simple and fast validation of an object against a schema.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["validation", "schemas", "validation-schema", "utility"],
+  "author": "Ilan Emanuel Fritzler <contacto.fritzlerilan@gmail.com> (http://github.com/ifritzler)",
+  "contributors": [
+    {
+      "name": "Ilan Emanuel Fritzler",
+      "email": "contacto.fritzlerilan@gmail.com",
+      "url": "https://github.com/ifritzler"
+    },
+    {
+      "name": "Federico Lautaro Hanson",
+      "email": "hanson.federico@gmail.com",
+      "url": "https://github.com/FedeLH"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ifritzler/basic-valid-object-schema.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ifritzler/basic-valid-object-schema/issues"
+  },
+  "homepage": "https://github.com/ifritzler/basic-valid-object-schema",
+  "license": "MIT"
+}
