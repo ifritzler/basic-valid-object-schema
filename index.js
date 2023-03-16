@@ -82,16 +82,18 @@ class ValidationObject {
             // Verificar el tipo de dato
 
             if (typeof obj[key] !== schema[key].type) {
-                if (parentKeys === null) {
-                    this.errors[key] = {
-                        error: `${key} must be a valid ${schema[key].type}.`
+                if(!Array.isArray(obj[key])){
+                    if (parentKeys === null) {
+                        this.errors[key] = {
+                            error: `${key} must be a valid ${schema[key].type}.`
+                        }
+                    } else {
+                        this.errors = this.#createObjectFromKeys([...parentKeys, key], {
+                            error: `${key} must be a valid ${schema[key].type}.`
+                        });
                     }
-                } else {
-                    this.errors = this.#createObjectFromKeys([...parentKeys, key], {
-                        error: `${key} must be a valid ${schema[key].type}.`
-                    });
+                    return false;
                 }
-                return false;
             }
 
             // Verificar el esquema anidado
