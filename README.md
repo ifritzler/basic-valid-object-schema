@@ -1,0 +1,1 @@
+# basic-valid-object-schema
