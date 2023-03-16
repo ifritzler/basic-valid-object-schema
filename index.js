@@ -126,7 +126,9 @@ class ValidationObject {
         for (const prop in obj) {
             if (typeof obj[prop] === "object" && obj[prop] !== null) {
                 // Si la propiedad es un objeto, llamar recursivamente la función `validate`
-                this.validate(obj[prop], depth + 1, schema[prop]?.schema);
+                if(!Array.isArray(obj[prop])){
+                    this.validate(obj[prop], depth + 1, schema[prop]?.schema);
+                }
             } else if (!schema.hasOwnProperty(prop)) {
                 // Si la propiedad no está definida en el schema, eliminarla
                 delete obj[prop];
