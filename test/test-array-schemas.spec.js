@@ -89,4 +89,18 @@ describe('Implementation of array schemas', () => {
       categories: { type: 'array', isArray: true, required: true, itemSchema: { name: { type: 'string', required: true }, value: { type: 'number', required: true } } }
     })
   })
+
+  test('checks items into arrays - supports item array schemas', () => {
+    const testValidationObject = new ValidationObject({ ...baseSchema, categories: { type: 'array', schema: { name: 'string', value: 'number' } } })
+    const inputObject = {
+      title: 'Test title',
+      description: 'Test description',
+      stock: 20,
+      active: true,
+      categories: [{ name: 'category2', value: 2 }, { name: 'category1', value: 1 }]
+    }
+
+    const { errors, data, isValidate } = testValidationObject.validate(inputObject)
+    console.log({ errors, data, isValidate })
+  })
 })
