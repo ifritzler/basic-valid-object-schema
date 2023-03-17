@@ -107,4 +107,40 @@ describe('Implementation of array schemas', () => {
     expect(data).toStrictEqual(inputObject)
     expect(isValidate).toBeTruthy()
   })
+
+  test('checks items into arrays with error - supports item array schemas', () => {
+    const testValidationObject = new ValidationObject({ ...baseSchema, categories: { type: 'array', schema: { name: 'string', value: 'number' } } })
+    const inputObject = {
+      title: 'Test title',
+      description: 'Test description',
+      stock: 20,
+      active: true,
+      categories: [{ name: 'category2', value: '2' }, { name: 'category1', value: 1 }]
+    }
+
+    const { errors, data, isValidate } = testValidationObject.validate(inputObject)
+    console.log({ errors, data, isValidate })
+
+    expect(errors).toStrictEqual({ categories: { value: { error: 'value must be a valid number.' } } })
+    expect(data).toBeNull()
+    expect(isValidate).toBeFalsy()
+  })
+
+  test('checks items into arrays with error 2  - supports item array schemas', () => {
+    const testValidationObject = new ValidationObject({ ...baseSchema, categories: { type: 'array', schema: 'string' } })
+    const inputObject = {
+      title: 'Test title',
+      description: 'Test description',
+      stock: 20,
+      active: true,
+      categories: ['category1', 3]
+    }
+
+    const { errors, data, isValidate } = testValidationObject.validate(inputObject)
+    console.log({ errors, data, isValidate })
+
+    expect(errors).toStrictEqual({ categories: { error: "item with value '3' of array must be a valid string." } })
+    expect(data).toBeNull()
+    expect(isValidate).toBeFalsy()
+  })
 })

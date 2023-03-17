@@ -93,7 +93,7 @@ class ValidationObject {
     if (typeof schema === 'string' && typeof obj !== 'object') {
       if (typeof obj !== schema) {
         this.errors = this.#createObjectFromKeys([...parentKeys ?? []], {
-          error: `item '${obj}' of array must be a valid ${schema}.`
+          error: `item with value '${obj}' of array must be a valid ${schema}.`
         })
         return false
       }
