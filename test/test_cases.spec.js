@@ -5,7 +5,10 @@ const baseSchema = {
   description: 'string',
   stock: 'number',
   active: 'boolean',
-  categories: 'array'
+  categories: {
+    type: 'array',
+    schema: 'string'
+  }
 }
 
 describe('Validating a 1 level depth schema with primitive and non primitive types', () => {

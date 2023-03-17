@@ -1,3 +1,4 @@
+/* eslint-disable valid-typeof */
 class ValidationObject {
   constructor (schema) {
     this.errors = {}
@@ -5,32 +6,79 @@ class ValidationObject {
     this.options = {}
   }
 
-  /**
-     * Esta funcion recibe un schema obtenido al momento de instanciar la clase y lo parsea de tal manera que se pueda trabajar
-     * con un schema limpio y consistente.
-     * Esta funcion es recursiva con una complejidad O(n) y ya esta lo suficientemente optimizada. Cualquier algoritmo similar
-     * podria tener la misma complejidad o peor.
-     * @param {*} schema
-     * @returns Schema valido que permite a la instancia de clase validar correctamente las properties del objeto
-     * proporcionado
-     */
   #createSchema (schema) {
     const newSchema = {}
     for (const [key, value] of Object.entries(schema)) {
-      if (typeof value !== 'object' || value.schema === undefined) {
+      // TODO: Caso en el que la key evaluada no es un array y no es un objeto
+      if (typeof value === 'string' && value !== 'array') {
         newSchema[key] = {
-          type: value.type ?? value,
-          required: value.required ?? true,
-          schema: null,
-          default: value.default ?? undefined
+          type: value,
+          required: true
         }
-      } else {
+        // Le asigno solo el valor por default al schema si lo posee
+        if (value.default) newSchema[key].default = value.default
+
+        // TODO: Caso en el que la key evaluada es un objeto sin schema y no es de tipo array
+      } else if (typeof value === 'object' && !value.type === 'array' && value.schema) {
+        if (!value.type) throw new Error('A valid object schema needs to have a type prop assigned.')
         const childSchema = this.#createSchema(value.schema)
         newSchema[key] = {
           type: 'object',
           required: value.required ?? true,
           schema: childSchema
         }
+
+        // Le asigno solo el valor por default al schema si lo posee
+        if (value.default) newSchema[key].default = value.default
+
+        // TODO: Caso en el que la key evaluada es un objeto y tiene schema pero no es un array
+      } else if (typeof value === 'object' && value.type !== 'array' && !value.schema) {
+        newSchema[key] = {
+          type: value.type,
+          required: value.required ?? true
+        }
+
+        // Le asigno solo el valor por default al schema si lo posee
+        if (value.default) newSchema[key].default = value.default
+      } else if (typeof value === 'object' && value.type !== 'array' && value.schema) {
+        const childSchema = this.#createSchema(value.schema)
+        newSchema[key] = {
+          type: 'object',
+          required: value.required ?? true,
+          schema: childSchema
+        }
+
+        // Le asigno solo el valor por default al schema si lo posee
+        if (value.default) newSchema[key].default = value.default
+
+        // TODO: Caso donde el la key evaluada es un objeto y es de tipo array
+      } else if (typeof value === 'object' && value.type === 'array') {
+        if (!value.schema) {
+          throw new Error('A valid array schema needs to have a schema prop assigned.')
+        }
+        if (Array.isArray(value.schema) || (typeof value.schema !== 'string' && typeof value.schema !== 'object')) {
+          throw new Error('A schema of an array must be a valid schema object or string primitive.')
+        }
+        // TODO: DELETE THIS LINE BELOW
+        let childSchema
+        if (typeof value.schema === 'object') {
+          childSchema = this.#createSchema(value.schema)
+        } else {
+          childSchema = value.schema
+        }
+        newSchema[key] = {
+          type: 'array',
+          isArray: true,
+          required: value.required ?? true,
+          itemSchema: childSchema
+        }
+
+        // Le asigno solo el valor por default al schema si lo posee
+        if (value.default) newSchema[key].default = value.default
+
+        // TODO: Caso donde el la key evaluada es un string "array"
+      } else if (value === 'array') {
+        throw new Error('If prop are from type array, the schema needs to be an object with the type array and a valid schema')
       }
     }
     return newSchema
@@ -107,7 +155,7 @@ class ValidationObject {
     for (const prop in schema) {
       // Si la propiedad no está definida en el objeto, asignar el valor por defecto del schema (si está definido) a la propiedad
       if (!obj[prop]) {
-        if (schema[prop]?.default !== undefined) {
+        if (schema[prop]?.default) {
           obj[prop] = schema[prop].default
         } else {
           delete obj[prop]
