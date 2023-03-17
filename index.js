@@ -100,7 +100,7 @@ class ValidationObject {
     } else {
       for (const key in schema) {
         // Si la propiedad no está en el objeto, devolver false si es requerida, de lo contrario, pasar a la siguiente propiedad
-        if (!(key in obj)) {
+        if (typeof obj === 'object' && !Array.isArray(obj) && !(key in obj)) {
           if (schema[key].required) {
             if (parentKeys === null) {
               this.errors[key] = {
