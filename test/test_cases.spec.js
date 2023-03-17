@@ -184,4 +184,14 @@ describe('Deleting all fields that not match with the schema', () => {
     expect(data).toStrictEqual(responseTestItem)
     expect(isValidate).toBe(true)
   })
+
+  test('case with a prop object that is not an array but have schema', () => {
+    const testValidationObject = new ValidationObject({ ...baseSchema, address: { schema: { street: 'string', number: 'number' } } })
+    const obj = JSON.parse(JSON.stringify({ ...inputTestItem, address: { street: 'Street', number: 123 } }))
+    const { isValidate, errors, data } = testValidationObject.validate(obj)
+    const responseTestItem = { title: 'test title', description: 'test desc', stock: 25, active: true, categories: ['category'], address: { street: 'Street', number: 123 } }
+    expect(errors).toStrictEqual({})
+    expect(data).toStrictEqual(responseTestItem)
+    expect(isValidate).toBe(true)
+  })
 })

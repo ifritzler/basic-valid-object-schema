@@ -19,8 +19,7 @@ class ValidationObject {
         if (value.default) newSchema[key].default = value.default
 
         // TODO: Caso en el que la key evaluada es un objeto sin schema y no es de tipo array
-      } else if (typeof value === 'object' && !value.type === 'array' && value.schema) {
-        if (!value.type) throw new Error('A valid object schema needs to have a type prop assigned.')
+      } else if (typeof value === 'object' && value.schema && !(value.type === 'array')) {
         const childSchema = this.#createSchema(value.schema)
         newSchema[key] = {
           type: 'object',
@@ -40,17 +39,6 @@ class ValidationObject {
 
         // Le asigno solo el valor por default al schema si lo posee
         if (value.default) newSchema[key].default = value.default
-      } else if (typeof value === 'object' && value.type !== 'array' && value.schema) {
-        const childSchema = this.#createSchema(value.schema)
-        newSchema[key] = {
-          type: 'object',
-          required: value.required ?? true,
-          schema: childSchema
-        }
-
-        // Le asigno solo el valor por default al schema si lo posee
-        if (value.default) newSchema[key].default = value.default
-
         // TODO: Caso donde el la key evaluada es un objeto y es de tipo array
       } else if (typeof value === 'object' && value.type === 'array') {
         if (!value.schema) {
@@ -59,7 +47,6 @@ class ValidationObject {
         if (Array.isArray(value.schema) || (typeof value.schema !== 'string' && typeof value.schema !== 'object')) {
           throw new Error('A schema of an array must be a valid schema object or string primitive.')
         }
-        // TODO: DELETE THIS LINE BELOW
         let childSchema
         if (typeof value.schema === 'object') {
           childSchema = this.#createSchema(value.schema)

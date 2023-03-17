@@ -51,4 +51,42 @@ describe('Implementation of array schemas', () => {
     })
     expect(isValidate).toBeTruthy()
   })
+
+  test('when i pass a invalid array type schema, throw an error', () => {
+    try {
+      const testValidationObject = new ValidationObject({ baseSchema, categories: 'array' })
+      console.log(testValidationObject)
+    } catch (error) {
+      expect(error.message).toEqual('If prop are from type array, the schema needs to be an object with the type array and a valid schema')
+    }
+  })
+
+  test('A valid array schema needs to have a schema prop assigned.', () => {
+    try {
+      const testValidationObject = new ValidationObject({ baseSchema, categories: { type: 'array' } })
+      console.log(testValidationObject)
+    } catch (error) {
+      expect(error.message).toEqual('A valid array schema needs to have a schema prop assigned.')
+    }
+  })
+
+  test('A schema of an array must be a valid schema object or string primitive.', () => {
+    try {
+      const testValidationObject = new ValidationObject({ baseSchema, categories: { type: 'array', schema: ['hello i am an error'] } })
+      console.log(testValidationObject)
+    } catch (error) {
+      expect(error.message).toEqual('A schema of an array must be a valid schema object or string primitive.')
+    }
+  })
+
+  test('Supports item array schemas', () => {
+    const testValidationObject = new ValidationObject({ ...baseSchema, categories: { type: 'array', schema: { name: 'string', value: 'number' } } })
+    expect(testValidationObject.schema).toStrictEqual({
+      title: { type: 'string', required: true },
+      description: { type: 'string', required: true },
+      stock: { type: 'number', required: true },
+      active: { type: 'boolean', required: true },
+      categories: { type: 'array', isArray: true, required: true, itemSchema: { name: { type: 'string', required: true }, value: { type: 'number', required: true } } }
+    })
+  })
 })
