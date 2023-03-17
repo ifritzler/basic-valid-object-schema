@@ -37,7 +37,7 @@
     "url": "https://github.com/ifritzler/basic-valid-object-schema/issues"
   },
   "homepage": "https://github.com/ifritzler/basic-valid-object-schema",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "eslint": "^8.36.0",
     "eslint-config-standard": "^17.0.0",
