@@ -102,5 +102,9 @@ describe('Implementation of array schemas', () => {
 
     const { errors, data, isValidate } = testValidationObject.validate(inputObject)
     console.log({ errors, data, isValidate })
+
+    expect(errors).toStrictEqual({})
+    expect(data).toStrictEqual(inputObject)
+    expect(isValidate).toBeTruthy()
   })
 })

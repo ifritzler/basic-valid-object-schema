@@ -90,47 +90,58 @@ class ValidationObject {
   }
 
   #validateObjectAgainstSchema = (obj, schema, parentKeys = null) => {
-    for (const key in schema) {
-      // Si la propiedad no está en el objeto, devolver false si es requerida, de lo contrario, pasar a la siguiente propiedad
-      if (!(key in obj)) {
-        if (schema[key].required) {
-          if (parentKeys === null) {
-            this.errors[key] = {
+    if (typeof schema === 'string' && typeof obj !== 'object') {
+      if (typeof obj !== schema) {
+        this.errors = this.#createObjectFromKeys([...parentKeys ?? []], {
+          error: `item '${obj}' of array must be a valid ${schema}.`
+        })
+        return false
+      }
+    } else {
+      for (const key in schema) {
+        // Si la propiedad no está en el objeto, devolver false si es requerida, de lo contrario, pasar a la siguiente propiedad
+        if (!(key in obj)) {
+          if (schema[key].required) {
+            if (parentKeys === null) {
+              this.errors[key] = {
+                error: 'Is required'
+              }
+              return false
+            }
+            this.errors = this.#createObjectFromKeys([...parentKeys ?? [], key], {
               error: 'Is required'
+            })
+            return false
+          } else {
+            continue
+          }
+        }
+        // Verificar el tipo de dato
+        // eslint-disable-next-line valid-typeof
+        if (typeof obj[key] !== schema[key].type) {
+          if (!Array.isArray(obj[key])) {
+            if (parentKeys === null) {
+              this.errors[key] = {
+                error: `${key} must be a valid ${schema[key].type}.`
+              }
+            } else {
+              this.errors = this.#createObjectFromKeys([...parentKeys, key], {
+                error: `${key} must be a valid ${schema[key].type}.`
+              })
             }
             return false
           }
-          this.errors = this.#createObjectFromKeys([...parentKeys, key], {
-            error: 'Is required'
-          })
-          return false
-        } else {
-          continue
-        }
-      }
-
-      // Verificar el tipo de dato
-
-      // eslint-disable-next-line valid-typeof
-      if (typeof obj[key] !== schema[key].type) {
-        if (!Array.isArray(obj[key])) {
-          if (parentKeys === null) {
-            this.errors[key] = {
-              error: `${key} must be a valid ${schema[key].type}.`
+          for (let i = 0; i < obj[key].length; i++) {
+            if (!this.#validateObjectAgainstSchema(obj[key][i], schema[key].itemSchema, [...parentKeys ?? [], key])) {
+              return false
             }
-          } else {
-            this.errors = this.#createObjectFromKeys([...parentKeys, key], {
-              error: `${key} must be a valid ${schema[key].type}.`
-            })
           }
-          return false
         }
-      }
-
-      // Verificar el esquema anidado
-      if (schema[key].schema && typeof obj[key] === 'object') {
-        if (!this.#validateObjectAgainstSchema(obj[key], schema[key].schema, [...parentKeys ?? [], key])) {
-          return false
+        // Verificar el esquema anidado
+        if (schema[key].schema && typeof obj[key] === 'object') {
+          if (!this.#validateObjectAgainstSchema(obj[key], schema[key].schema, [...parentKeys ?? [], key])) {
+            return false
+          }
         }
       }
     }
