@@ -56,7 +56,7 @@ Give a ⭐️ if this project helped you!
 
 Copyright © 2023 [Ilan Emanuel Fritzler <contacto.fritzlerilan@gmail.com> (http://github.com/ifritzler)](https://github.com/ifritzler).
 
-This project is [MIT](https://github.com/ifritzler/basic-valid-object-schema/blob/master/LICENSE) licensed.
+This project is [Apache 2.0](https://github.com/ifritzler/basic-valid-object-schema/blob/main/LICENSE.md) licensed.
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
