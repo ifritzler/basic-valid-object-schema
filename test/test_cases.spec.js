@@ -15,7 +15,7 @@ describe('Validating a 1 level depth schema with primitive and non primitive typ
   const validationObject = new ValidationObject(baseSchema)
 
   afterEach(() => {
-    validationObject.errors = {}
+    validationObject.blankErrors()
   })
 
   test('input object is a valid schema', () => {
@@ -72,7 +72,7 @@ describe('Validating a 2 level depth schema with primitive and non primitive typ
   const validationObject = new ValidationObject(baseSchemaModify)
   const baseTestItem = { title: 'test title', description: 'test desc', stock: 25, active: true, categories: ['category'], origin: { country: 'Argentina', city: 'MDP' } }
   afterEach(() => {
-    validationObject.errors = {}
+    validationObject.blankErrors()
   })
 
   test('input object is a valid schema', () => {
@@ -135,7 +135,7 @@ describe('Validating default values', () => {
   const inputTestItem = { description: 'test desc', stock: 25, active: true, categories: ['category'], origin: { city: 'MDP' } }
 
   afterEach(() => {
-    validationObject.errors = {}
+    validationObject.blankErrors()
   })
 
   test('if a prop have a default value and does not on input object, then default value appears', () => {
@@ -154,7 +154,7 @@ describe('Validating non required values', () => {
   const inputTestItem = { description: 'test desc', stock: 25, active: true, categories: ['category'] }
 
   beforeEach(() => {
-    validationObject.errors = {}
+    validationObject.blankErrors()
   })
 
   test('if a prop is a non required field ignore it', () => {
@@ -173,7 +173,7 @@ describe('Deleting all fields that not match with the schema', () => {
   const inputTestItem = { title: 'test title', description: 'test desc', stock: 25, active: true, categories: ['category'], saraza: 'saraza', query: 'SELECT *' }
 
   beforeEach(() => {
-    validationObject.errors = {}
+    validationObject.blankErrors()
   })
 
   test('if a prop is a non required field ignore it', () => {
