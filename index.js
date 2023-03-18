@@ -3,11 +3,9 @@
 class ValidationObject {
   #errors
   #schema
-  #options
   constructor (schema) {
     this.#errors = {}
     this.#schema = this.#createSchema(schema)
-    this.#options = {}
   }
 
   /**
