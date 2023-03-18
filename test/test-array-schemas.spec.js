@@ -15,7 +15,7 @@ describe('Implementation of array schemas', () => {
   const validationObject = new ValidationObject(localSchema)
 
   beforeEach(() => {
-    validationObject.errors = {}
+    validationObject.blankErrors()
   })
 
   test('when i pass a schema with arrays, this should be created fine', () => {
@@ -28,7 +28,7 @@ describe('Implementation of array schemas', () => {
     }
 
     const validationTestObject = new ValidationObject(baseSchema)
-    expect(validationTestObject.schema).toStrictEqual(testSchema)
+    expect(validationTestObject.getSchema()).toStrictEqual(testSchema)
   })
 
   test('a prop with an array schema of strings must be valid', () => {
@@ -81,7 +81,7 @@ describe('Implementation of array schemas', () => {
 
   test('Supports item array schemas', () => {
     const testValidationObject = new ValidationObject({ ...baseSchema, categories: { type: 'array', schema: { name: 'string', value: 'number' } } })
-    expect(testValidationObject.schema).toStrictEqual({
+    expect(testValidationObject.getSchema()).toStrictEqual({
       title: { type: 'string', required: true },
       description: { type: 'string', required: true },
       stock: { type: 'number', required: true },
