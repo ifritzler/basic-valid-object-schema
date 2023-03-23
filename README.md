@@ -4,7 +4,24 @@
 ![Prerequisite](https://img.shields.io/badge/node-%3E%3D12.0.0-blue.svg)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/ifritzler/basic-valid-object-schema#readme)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ifritzler/basic-valid-object-schema/graphs/commit-activity)
-[![License: MIT](https://img.shields.io/github/license/ifritzler/Basic)](https://github.com/ifritzler/basic-valid-object-schema/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/ifritzler/Basic)](https://github.com/ifritzler/basic-valid-object-schema/blob/main/LICENSE.md)
+
+---
+
+[![Alpha Version Alert](https://img.shields.io/badge/-ALPHA-yellow?style=for-the-badge)](#) 
+
+```
+This is an alpha version of the library and is subject to frequent changes and updates. We do not recommend using this version in production environments.
+
+Please note that there may be breaking changes as we work towards the stable release version 1.0.
+
+We do not assume responsibility for any changes made to the API due to the use of this alpha version.
+
+Please be aware that this software is released under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). 
+```
+---
+
+
 
 > Validation tool or utility that allows for simple and fast validation of an object against a schema.
 
