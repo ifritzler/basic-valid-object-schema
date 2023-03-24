@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 const ValidationObject = require('..')
+
 const baseSchema = {
   title: 'string',
   description: 'string',
@@ -55,7 +57,6 @@ describe('Implementation of array schemas', () => {
   test('when i pass a invalid array type schema, throw an error', () => {
     try {
       const testValidationObject = new ValidationObject({ baseSchema, categories: 'array' })
-      console.log(testValidationObject)
     } catch (error) {
       expect(error.message).toEqual('If prop are from type array, the schema needs to be an object with the type array and a valid schema')
     }
@@ -64,7 +65,6 @@ describe('Implementation of array schemas', () => {
   test('A valid array schema needs to have a schema prop assigned.', () => {
     try {
       const testValidationObject = new ValidationObject({ baseSchema, categories: { type: 'array' } })
-      console.log(testValidationObject)
     } catch (error) {
       expect(error.message).toEqual('A valid array schema needs to have a schema prop assigned.')
     }
@@ -73,7 +73,6 @@ describe('Implementation of array schemas', () => {
   test('A schema of an array must be a valid schema object or string primitive.', () => {
     try {
       const testValidationObject = new ValidationObject({ baseSchema, categories: { type: 'array', schema: ['hello i am an error'] } })
-      console.log(testValidationObject)
     } catch (error) {
       expect(error.message).toEqual('A schema of an array must be a valid schema object or string primitive.')
     }
@@ -101,7 +100,6 @@ describe('Implementation of array schemas', () => {
     }
 
     const { errors, data, isValidate } = testValidationObject.validate(inputObject)
-    console.log({ errors, data, isValidate })
 
     expect(errors).toStrictEqual({})
     expect(data).toStrictEqual(inputObject)
@@ -119,7 +117,6 @@ describe('Implementation of array schemas', () => {
     }
 
     const { errors, data, isValidate } = testValidationObject.validate(inputObject)
-    console.log({ errors, data, isValidate })
 
     expect(errors).toStrictEqual({ categories: { value: { error: 'value must be a valid number.' } } })
     expect(data).toBeNull()
@@ -137,7 +134,6 @@ describe('Implementation of array schemas', () => {
     }
 
     const { errors, data, isValidate } = testValidationObject.validate(inputObject)
-    console.log({ errors, data, isValidate })
 
     expect(errors).toStrictEqual({ categories: { error: "item with value '3' of array must be a valid string." } })
     expect(data).toBeNull()

@@ -1,11 +1,11 @@
 # Welcome to Basic Valid Object Schema 👋
-![Version](https://img.shields.io/badge/version-0.2.2-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-0.2.3-blue.svg?cacheSeconds=2592000)
 ![Prerequisite](https://img.shields.io/badge/npm-%3E%3D8.0.0-blue.svg)
 ![Prerequisite](https://img.shields.io/badge/node-%3E%3D14.0.0-blue.svg)
 [![English- Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/ifritzler/basic-valid-object-schema#readme)
 [![Spanish- Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/ifritzler/basic-valid-object-schema/docs/spanish.md)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ifritzler/basic-valid-object-schema/graphs/commit-activity)
-[![License: MIT](https://img.shields.io/github/license/ifritzler/Basic)](https://github.com/ifritzler/basic-valid-object-schema/blob/main/LICENSE.md)
+[![License: MIT](https://img.shields.io/github/license/ifritzler/Basic)](https://github.com/ifritzler/basic-valid-object-schema/blob/master/LICENSE.md)
 
 ---
 
@@ -153,6 +153,43 @@ errors: {
 },
 isValid: false,
 data: null
+*/
+```
+
+## Options for validate:
+| Option     | Description |
+|------------|-------------|
+| `whitelist` | If the value is `true`, it will clean all properties that are not defined in the schema. If the value is `false`, it will not perform the cleaning and allow the existence of additional properties in the object. This option is useful for validating and ensuring that the data sent to the class object is as expected. |
+---
+## How to avoid cleaning extra properties from my schema
+```javascript
+
+const okRawProductData = {
+  title: "title1",
+  price: 300.5,
+  extraProperty: true
+}
+
+const {
+  // Boolean indicating whether the object is valid or not
+  isValidate,
+  // validated object, can be null or an object with processed data ready to be used.
+  data, 
+  // object of errors produced during validation, can be null if the object is valid.
+  errors
+} = validate( createProductSchema, badRawProductData, { whitelist: false } )
+
+console.log({errors, isValidate, data})
+/*
+errors: null,
+isValidate: true,
+data: {
+  title: "title1",
+  price: 300.5,
+  active: true,
+  categories: ["category"],
+  extraProperty: true --> Here is the property thanks to whitelist false attribute
+}
 */
 ```
 
