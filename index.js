@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable valid-typeof */
-class ValidationObject {
+class BasicValidationClass {
   #errors
   #schema
   constructor (schema) {
@@ -184,25 +184,14 @@ class ValidationObject {
     }
   }
 
-  /**
-   * Setea un error en el objeto de errores `#errors` en la clave dada por `parentKeys` y `key`.
-   * Si `parentKeys` es `null`, entonces la clave del error será `key`.
-   * Si `key` es `null`, entonces se trata de un error genérico para todos los elementos de un array.
-   *
-   * @private
-   * @param {?string[]} parentKeys - Un array con las claves de las propiedades padres del objeto, en orden descendente.
-   * @param {?string} key - La clave de la propiedad del objeto donde ocurrió el error.
-   * @param {string} error - El mensaje de error a asignar.
-   * @returns {void}
-   */
-  validate (obj, depth = 0, schema = this.#schema) {
+  validate (obj, options = DEFAULT_BASIC_VALID_SCHEMA_OPTIONS, depth = 0, schema = this.#schema) {
     this.#asignedDefaultValues(schema, obj)
     for (const prop in obj) {
       if (typeof obj[prop] === 'object' && obj[prop] !== null) {
         if (!Array.isArray(obj[prop])) {
-          this.validate(obj[prop], depth + 1, schema[prop]?.schema)
+          this.validate(obj[prop], options, depth + 1, schema[prop]?.schema)
         }
-      } else if (!schema[prop]) {
+      } else if (options.whitelist && !schema[prop]) {
         delete obj[prop]
       }
     }
@@ -223,4 +212,25 @@ class ValidationObject {
   }
 }
 
-module.exports = ValidationObject
+const DEFAULT_BASIC_VALID_SCHEMA_OPTIONS = {
+  whitelist: true
+}
+
+const validate = async (schema, obj, options = DEFAULT_BASIC_VALID_SCHEMA_OPTIONS) => {
+  const validator = new BasicValidationClass(schema)
+  const { errors, data, isValidate } = validator.validate(obj, options)
+
+  return { errors, data, isValidate }
+}
+
+const validateSync = (schema, obj, options = DEFAULT_BASIC_VALID_SCHEMA_OPTIONS) => {
+  const validator = new BasicValidationClass(schema)
+  const { errors, data, isValidate } = validator.validate(obj, options)
+
+  return { errors, data, isValidate }
+}
+
+module.exports = BasicValidationClass
+module.exports.DEFAULT_BASIC_VALID_SCHEMA_OPTIONS = DEFAULT_BASIC_VALID_SCHEMA_OPTIONS
+module.exports.validate = validate
+module.exports.validateSync = validateSync
