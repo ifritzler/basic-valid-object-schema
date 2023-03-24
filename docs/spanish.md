@@ -139,7 +139,6 @@ const badRawProductData = {
 }
 
 const { isValidate, data, errors } = await validate( createProductSchema, badRawProductData )
-
 console.log({errors, isValidate, data})
 /*
 errors: {
