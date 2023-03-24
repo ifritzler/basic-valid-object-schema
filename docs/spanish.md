@@ -1,7 +1,7 @@
 # Welcome to Basic Valid Object Schema 👋
 ![Version](https://img.shields.io/badge/version-0.2.2-blue.svg?cacheSeconds=2592000)
-![Prerequisite](https://img.shields.io/badge/npm-%3E%3D8.0.0-blue.svg)
-![Prerequisite](https://img.shields.io/badge/node-%3E%3D14.0.0-blue.svg)
+![Prerequisite](https://img.shields.io/badge/npm-%3E%3D7.0.0-blue.svg)
+![Prerequisite](https://img.shields.io/badge/node-%3E%3D12.0.0-blue.svg)
 [![English- Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/ifritzler/basic-valid-object-schema#readme)
 [![Spanish- Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/ifritzler/basic-valid-object-schema/docs/spanish.md)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ifritzler/basic-valid-object-schema/graphs/commit-activity)
@@ -9,37 +9,35 @@
 
 ---
 
-[![Alpha Version alert](https://img.shields.io/badge/-ALPHA-yellow?style=for-the-badge)](#) 
+[![ALERTA - Alpha Version](https://img.shields.io/badge/-ALPHA-yellow?style=for-the-badge)](#) 
 
 ```
-This is an alpha version of the library and is subject to frequent changes and updates. We do not recommend using this version in production environments.
+Esta es una versión alfa de la biblioteca y está sujeta a cambios y actualizaciones frecuentes. No recomendamos usar esta versión en entornos de producción.
 
-Please note that there may be breaking changes as we work towards the stable release version 1.0.
+Tenga en cuenta que puede haber cambios disruptivos a medida que trabajamos hacia la versión estable de lanzamiento 1.0.
 
-We do not assume responsibility for any changes made to the API due to the use of this alpha version.
+No asumimos responsabilidad por ningún cambio hecho en la API debido al uso de esta versión alfa.
 
-Please be aware that this software is released under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). 
+Tenga en cuenta que este software se publica bajo la [Licencia Apache 2.0] (https://www.apache.org/licenses/LICENSE-2.0). 
 ```
 ---
 
-
-
-> Validation tool or utility that allows for simple and fast validation of an object against a schema.
+> Herramienta o utilidad de validación que permite la validación simple y rápida de un objeto contra un esquema.
 
 ### 🏠 [Homepage](https://github.com/ifritzler/basic-valid-object-schema)
 
-## Prerequisites
+## Pre requisitos
 
 - npm >=8.0.0
 - node >=14.0.0
 
-## Install
+## Instalación
 
 ```sh
 npm install basic-valid-object-schema
 ```
 
-## Run tests
+## Correr tests
 
 ```sh
 npm run test
@@ -57,24 +55,24 @@ npm run test
 | `array`     | Conjunto de datos agrupados. |
 
 ---
-## Methods
+## Metodos
 
 ### ValidationObject.prototype.constructor(schema: object)
 ### ValidationObject.prototype.validate(o: object)
-- Method that validates an object against the schema initialized in the ValidationObject instance.
+- Metodo que valida un objeto contra el schema inicializado en la instancia de ValidationObject.
 
-- Return: {errors: object, data: null | object, isValid: boolean}
+- Return: {errors: object, data: null | object, isValidate: boolean}
 ---
-## Usage/Examples
+## Uso/Ejemplos
 
-### Basic Example
+## Ejemplo basico
 
-First, we create a schema. A **schema** is an object that represents an entity or object to be validated. Each object we want to validate will be validated against the requirements of this schema.
+Primero creemos un schema. Un **schema** es un objecto que representa una entidad o objecto a validar. Cada objeto que querramos validar sera validado contra los requerimientos de este schema.
 
-Once the schema is created, wherever we want to perform the validation, we will need to import the library, generate a new instance with the schema to contrast, and use '**validate**' passing the object to validate. This will give us important variables that we can destructure as seen in the code below.
+Una vez creado el schema, donde queramos realizar la validacion necesitaremos importar la libreria, generar una nueva instancia con el schema a contrastar, y utilizar '**validate**' pasandole el objeto a validar. Esto ultimo nos dara importantes variables que podremos desestructurar como se ve en el codigo debajo.
 
-**By default, all properties of a schema are required unless otherwise indicated.**
 
+**Por defecto todas las propiedades de un schema son requeridas salvo que se indique lo contrario.**
 
 ```javascript
 import ValidationObject from 'basic-valid-object-schema';
@@ -110,62 +108,61 @@ const okRawProductData = {
 const validator = new ValidationObject(createProductSchema)
 
 const {
-  // Boolean that indicates whether the object is valid or not
-  isValid,
-  // Validated object, can be null or an object with processed data ready to be used.
-  data,
-  // Error object produced during validation, can be null if the object is valid.
+  // Booleano que indica si el objeto es valido o no
+  isValidate,
+  // objeto validado, puede ser null o un object con los datos procesados y listos para ser utilizados.
+  data, 
+  // object de errores producidos durante validacion, puede ser null en caso de que sea valido el objeto.
   errors
-} = validator.validate(badRawProductData);
+} = validator.validate( badRawProductData )
 
-console.log({ errors, isValid, data });
+console.log({errors, isValidate, data})
 /*
 errors: null,
-isValid: true,
+isValidate: true,
 data: {
   title: "title1",
   price: 300.5,
   active: true,
   categories: ["category"]
 }
-*/ 
+*/
 ...
 
 ```
 
-Example with the same schema and different input that causes the validation to fail and return an error.
+Ejemplo con el mismo schema y diferente input que genera que la validacion falle y de un error.
 
 ```javascript
 
 const badRawProductData = {
   title: "title1",
   price: "$300.5"
-};
+}
 
-const { isValid, data, errors } = validator.validate(badRawProductData);
+const { isValidate, data, errors } = validator.validate( badRawProductData )
 
-console.log({ errors, isValid, data });
+console.log({errors, isValidate, data})
 /*
 errors: {
   price: {
     error: "price must be a valid number"
   }
 },
-isValid: false,
+isValidate: false,
 data: null
 */
 ```
 
-## Shortcut for schema creation:
+## Atajo para la creacion de schemas:
 
-There is a way to shorten our schemas by leaving the default schema values to do their magic.
+Existe una manera de acortar nuestros schemas, dejando los valores de schemas por defecto que hagan su magia.
 
-To understand this, it is necessary to understand that:
-- Properties of each schema are required by default.
-- The value of a subschema can be either an object that represents a schema or a string.
+Para poder coomprender esto es necesario entender que:
+- Las propiedades de cada schema son requeridas por defecto.
+- El valor de un subschema puede ser igual a un object que represente a un schema o un string.
 
-The schema seen earlier can be reduced to this:
-
+El schema visto anteriormente puede ser reducido a esto:
 
 ```javascript
 const createProductSchema = {
@@ -184,7 +181,7 @@ const createProductSchema = {
 }
 ```
 
-## Authors
+## Autores
 
 👤 **Ilan Emanuel Fritzler <contacto.fritzlerilan@gmail.com> (http://github.com/ifritzler)**
 
@@ -200,20 +197,20 @@ const createProductSchema = {
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!
+Contribuciones, issues y feature requests son bienvenidas!
 
-Feel free to check [issues page](https://github.com/ifritzler/basic-valid-object-schema/issues). You can also take a look at the [contributing guide](https://github.com/ifritzler/basic-valid-object-schema/blob/main/CONTRIBUTING.md).
+Sientanse libres de revisar [pagina de issues](https://github.com/ifritzler/basic-valid-object-schema/issues). Puedes tambien echar un vistazo a la [guia de contribucion](https://github.com/ifritzler/basic-valid-object-schema/blob/main/CONTRIBUTING.md).
 
-## Show your support
+## Muestra tu apoyo
 
-Give a ⭐️ if this project helped you!
+Danos una ⭐️ si este proyecto te ha ayudado!
 
 
-## 📝 License
+## 📝 Licencia
 
 Copyright © 2023 [Ilan Emanuel Fritzler <contacto.fritzlerilan@gmail.com> (http://github.com/ifritzler)](https://github.com/ifritzler).
 
 This project is [Apache 2.0](https://github.com/ifritzler/basic-valid-object-schema/blob/main/LICENSE.md) licensed.
 
 ***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+_Este readme ha sido generado con ❤️ por [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
