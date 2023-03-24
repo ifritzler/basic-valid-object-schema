@@ -44,26 +44,33 @@ npm install basic-valid-object-schema
 ```sh
 npm run test
 ```
-## Tipos de dato soportados
-| Tipo de dato | Descripción |
-|--------------|-------------|
-| `number`     | Números enteros y de punto flotante. |
-| `string`     | Cadena de texto. |
-| `boolean`    | Valor verdadero o falso. |
-| `null`       | Valor nulo, representa la ausencia de valor. |
-| `undefined`  | Valor indefinido, representa una variable sin valor asignado. |
-| `symbol`     | Valor único e inmutable utilizado como clave de objetos. |
-| `bigint`     | Números enteros extremadamente grandes (a partir de ES2020). |
-| `array`     | Conjunto de datos agrupados. |
+## Supported Data Types
+| Data Type | Description |
+|-----------|-------------|
+| `number`  | Integers and floating point numbers. |
+| `string`  | Text string. |
+| `boolean` | True or false value. |
+| `null`    | Null value, represents the absence of a value. |
+| `undefined` | Undefined value, represents a variable without an assigned value. |
+| `symbol` | Unique and immutable value used as an object key. |
+| `bigint` | Extremely large integers (as of ES2020). |
+| `array` | Set of grouped data. | 
 
 ---
 ## Methods
 
 ### ValidationObject.prototype.constructor(schema: object)
-### ValidationObject.prototype.validate(o: object)
-- Method that validates an object against the schema initialized in the ValidationObject instance.
 
+### ValidationObject.prototype.validate(o: object)
+
+- Method that validates an object against the schema initialized in the ValidationObject instance.
 - Return: {errors: object, data: null | object, isValid: boolean}
+
+### validate(schema: object, o: object): Promise<{errors, data, isValidate}>
+- Return: Promise<{errors: object, data: null | object, isValidate: boolean}>
+
+### validateSync(schema: object, o: object): {errors, data, isValidate}
+- Return: {errors: object, data: null | object, isValidate: boolean}
 ---
 ## Usage/Examples
 
@@ -71,13 +78,13 @@ npm run test
 
 First, we create a schema. A **schema** is an object that represents an entity or object to be validated. Each object we want to validate will be validated against the requirements of this schema.
 
-Once the schema is created, wherever we want to perform the validation, we will need to import the library, generate a new instance with the schema to contrast, and use '**validate**' passing the object to validate. This will give us important variables that we can destructure as seen in the code below.
+Once the schema is created, wherever we want to perform the validation, we will need to import the library and use '**validate**' hook passing the schema and the object to validate. This will give us important variables that we can destructure as seen in the code below.
 
 **By default, all properties of a schema are required unless otherwise indicated.**
 
 
 ```javascript
-import ValidationObject from 'basic-valid-object-schema';
+import { validate } from 'basic-valid-object-schema';
 
 const createProductSchema = {
     title: {
@@ -107,8 +114,6 @@ const okRawProductData = {
   price: 300.5
 }
 
-const validator = new ValidationObject(createProductSchema)
-
 const {
   // Boolean that indicates whether the object is valid or not
   isValid,
@@ -116,7 +121,7 @@ const {
   data,
   // Error object produced during validation, can be null if the object is valid.
   errors
-} = validator.validate(badRawProductData);
+} = await validate(createProductSchema, badRawProductData);
 
 console.log({ errors, isValid, data });
 /*
@@ -142,7 +147,7 @@ const badRawProductData = {
   price: "$300.5"
 };
 
-const { isValid, data, errors } = validator.validate(badRawProductData);
+const { isValid, data, errors } = await validate(createProductSchema, badRawProductData);
 
 console.log({ errors, isValid, data });
 /*
@@ -215,8 +220,7 @@ const createProductSchema = {
     categories: {
         type: "array",
         schema: "string",
-        default: ["category"],
-        required: true
+        default: ["category"]
     }
 }
 ```

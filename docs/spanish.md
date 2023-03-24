@@ -112,7 +112,7 @@ const {
   data, 
   // object de errores producidos durante validacion, puede ser null en caso de que sea valido el objeto.
   errors
-} = validate( createProductSchema, badRawProductData )
+} = await validate( createProductSchema, badRawProductData )
 
 console.log({errors, isValidate, data})
 /*
@@ -138,8 +138,7 @@ const badRawProductData = {
   price: "$300.5"
 }
 
-const { isValidate, data, errors } = validate( createProductSchema, badRawProductData )
-
+const { isValidate, data, errors } = await validate( createProductSchema, badRawProductData )
 console.log({errors, isValidate, data})
 /*
 errors: {
