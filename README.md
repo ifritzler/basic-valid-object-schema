@@ -1,11 +1,11 @@
 # Welcome to Basic Valid Object Schema 👋
-![Version](https://img.shields.io/badge/version-0.2.3-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-0.2.3.alpha.1-blue.svg?cacheSeconds=2592000)
 ![Prerequisite](https://img.shields.io/badge/npm-%3E%3D8.0.0-blue.svg)
 ![Prerequisite](https://img.shields.io/badge/node-%3E%3D14.0.0-blue.svg)
 [![English- Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/ifritzler/basic-valid-object-schema#readme)
 [![Spanish- Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/ifritzler/basic-valid-object-schema/docs/spanish.md)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ifritzler/basic-valid-object-schema/graphs/commit-activity)
-[![License: MIT](https://img.shields.io/github/license/ifritzler/Basic)](https://github.com/ifritzler/basic-valid-object-schema/blob/master/LICENSE.md)
+[![License: Apache 2.0](https://img.shields.io/github/license/ifritzler/Basic)](https://github.com/ifritzler/basic-valid-object-schema/blob/main/LICENSE)
 
 ---
 
