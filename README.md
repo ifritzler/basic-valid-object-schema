@@ -156,6 +156,43 @@ data: null
 */
 ```
 
+## Options for validate:
+| Option     | Description |
+|------------|-------------|
+| `whitelist` | If the value is `true`, it will clean all properties that are not defined in the schema. If the value is `false`, it will not perform the cleaning and allow the existence of additional properties in the object. This option is useful for validating and ensuring that the data sent to the class object is as expected. |
+---
+## How to avoid cleaning extra properties from my schema
+```javascript
+
+const okRawProductData = {
+  title: "title1",
+  price: 300.5,
+  extraProperty: true
+}
+
+const {
+  // Boolean indicating whether the object is valid or not
+  isValidate,
+  // validated object, can be null or an object with processed data ready to be used.
+  data, 
+  // object of errors produced during validation, can be null if the object is valid.
+  errors
+} = validate( createProductSchema, badRawProductData, { whitelist: false } )
+
+console.log({errors, isValidate, data})
+/*
+errors: null,
+isValidate: true,
+data: {
+  title: "title1",
+  price: 300.5,
+  active: true,
+  categories: ["category"],
+  extraProperty: true --> Here is the property thanks to whitelist false attribute
+}
+*/
+```
+
 ## Shortcut for schema creation:
 
 There is a way to shorten our schemas by leaving the default schema values to do their magic.
